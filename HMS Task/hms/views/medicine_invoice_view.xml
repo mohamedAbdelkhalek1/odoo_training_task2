@@ -1,0 +1,33 @@
+<odoo>
+    <data>
+
+        <record id="medicine_invoice_form_view" model="ir.ui.view">
+            <field name="name">Medicine Invoice Form View</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//group[@id='header_left_group']" position="inside">
+                    <field name="code"/>
+                    <field name="doctor_id"/>
+                    <field name="patient_id"/>
+                </xpath>
+                <xpath expr="//notebook[1]" position="inside">
+                    <page string="Medicines">
+                        <field name="medicine_orders_id">
+                            <tree>
+                                <field name="commercial_name"/>
+                                <field name="side_effects"/>
+                                <field name="directions_for_use"/>
+                                <field name="department_id"/>
+                            </tree>
+                        </field>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+
+        <menuitem id="medicine_invoice_menu" name="Medicine Invoices"
+                  parent="hms_menu_root" action="account.action_move_out_invoice_type"/>
+
+    </data>
+</odoo>

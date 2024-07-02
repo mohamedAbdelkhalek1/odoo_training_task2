@@ -1,0 +1,86 @@
+<odoo>
+
+    <data>
+
+        <record id="patient_tree_view" model="ir.ui.view">
+            <field name="name">patient tree view</field>
+            <field name="model">hms.patient</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="first_name"/>
+                    <field name="address"/>
+                    <field name="age"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="patient_form_view" model="ir.ui.view">
+            <field name="name">patient form view</field>
+            <field name="model">hms.patient</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button string="Undetermined" type="object" name="set_state_undetermined" invisible="state == 'undetermined'"/>
+                        <button string="Fair" type="object" name="set_state_fair" invisible="state != 'undetermined'"/>
+                        <button string="Good" type="object" name="set_state_good" invisible="state != 'undetermined'"/>
+                        <button string="Serious" type="object" name="set_state_serious" invisible="state != 'undetermined'"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                      <group>
+                        <group string="Personal Data">
+                            <field name="first_name"/>
+                            <field name="last_name"/>
+                            <field name="birth_date"/>
+                            <field name="blood_type"/>
+                            <field name="address"/>
+                            <field name="age"/>
+                            <field name="email"/>
+                        </group>
+                        <group string="HMS Data">
+                            <field name="blood_type"/>
+                            <field name="pcr"/>
+                            <field name="cr_ratio" required="pcr == True"/>
+                            <field name="department_id" domain="[('is_opened', '=', True)]"/>
+                            <field name="department_capacity"/>
+                            <field name="doctors_ids" readonly="not department_id" groups="hms.hms_manager_group"/>
+                        </group>
+                      </group>
+                        <notebook>
+                            <page string="Image">
+                                <field name="image" widget="image"/>
+                            </page>
+                            <page string="History">
+                                <field name="history" invisible="age &lt; 50"/>
+                            </page>
+                            <page string="Log History">
+                                <field name="log_history_ids">
+                                    <tree>
+                                        <field name="create_uid"/>
+                                        <field name="create_date"/>
+                                        <field name="description"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="patient_action" model="ir.actions.act_window">
+            <field name="name">patient action</field>
+            <field name="res_model">hms.patient</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+
+
+        <menuitem id="hms_menu_root" name="HMS" web_icon="hms,static/description/icon.png"/>
+        <menuitem id="patient_menu" name="Patients" parent="hms_menu_root" action="patient_action"/>
+
+
+    </data>
+
+</odoo>

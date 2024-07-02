@@ -1,0 +1,21 @@
+<odoo>
+    <data>
+
+        <record id="medicine_order_form_view" model="ir.ui.view">
+            <field name="name">Medicine Form View</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//group[@name='partner_details']" position="inside">
+                    <field name="commercial_name"/>
+                    <field name="side_effects"/>
+                    <field name="directions_for_use"/>
+                    <field name="department_id"/>
+                </xpath>
+            </field>
+        </record>
+
+        <menuitem id="medicine_menu" name="Medicines" parent="hms_menu_root" action="sale.action_orders"/>
+
+    </data>
+</odoo>

@@ -1,0 +1,205 @@
+<odoo>
+    <data>
+
+        <!--        <template id="patient_report_view">-->
+        <!--            <t t-call="web.html_container">-->
+        <!--                <t t-foreach="docs" t-as="patient">-->
+        <!--                    <t t-call="web.external_layout">-->
+        <!--                        <div class="page">-->
+        <!--                            <div class="row">-->
+        <!--                                <div class="col">-->
+        <!--                                    <h1 class="text-danger"><strong>Patient Status Report</strong></h1>-->
+        <!--                                </div>-->
+        <!--                                <div class="col">-->
+        <!--                                    <img t-att-src="image_data_uri(patient.image)"-->
+        <!--                                         t-if="patient.image" class="img-thumbnail"-->
+        <!--                                         alt="Patient" width="200" height="150"/>-->
+        <!--                                    &lt;!&ndash;                                    <img t-attf-src="data:image/jpeg;base64,#{patient.image}"&ndash;&gt;-->
+        <!--                                    &lt;!&ndash;                                             t-if="patient.image"&ndash;&gt;-->
+        <!--                                    &lt;!&ndash;                                             class="rounded" alt="Cinque Terre" width="304" height="236"/>&ndash;&gt;-->
+        <!--                                    &lt;!&ndash;                                    <div t-field="patient.image"&ndash;&gt;-->
+        <!--                                    &lt;!&ndash;                                        t-options='{"widget": "image", "width": "304px", "height": "236px"}'/>&ndash;&gt;-->
+        <!--                                </div>-->
+        <!--                            </div> <br/>-->
+        <!--                            <div class="row">-->
+        <!--                                <div class="col">-->
+        <!--                                    <h3>-->
+        <!--                                        <strong>Name:</strong>-->
+        <!--                                        <span t-field="patient.first_name"/>-->
+        <!--                                        <span t-field="patient.last_name"/>-->
+        <!--                                    </h3>-->
+        <!--                                    <h3>-->
+        <!--                                        <strong>Age:</strong>-->
+        <!--                                        <span t-field="patient.age"/>-->
+        <!--                                    </h3>-->
+        <!--                                    <h3>-->
+        <!--                                        <strong>Department:</strong>-->
+        <!--                                        <span t-field="patient.department_id"/>-->
+        <!--                                    </h3>-->
+        <!--                                    <h3>-->
+        <!--                                        <strong>Doctors:</strong>-->
+        <!--                                        <t t-foreach="patient.doctors_ids" t-as="doctor">-->
+        <!--                                            <span t-field="doctor.first_name"/>,-->
+        <!--                                        </t>-->
+        <!--                                    </h3>-->
+        <!--                                </div>-->
+        <!--                                <div class="col">-->
+        <!--                                    <h3>-->
+        <!--                                        <strong>Birth date:</strong>-->
+        <!--                                        <span t-field="patient.birth_date"/>-->
+        <!--                                    </h3>-->
+        <!--                                    <h3>-->
+        <!--                                        <strong>PCR:</strong>-->
+        <!--                                        <span t-field="patient.pcr"/>-->
+        <!--                                    </h3>-->
+        <!--                                    <h3>-->
+        <!--                                        <strong>Blood Type:</strong>-->
+        <!--                                        <span t-field="patient.blood_type"/>-->
+        <!--                                    </h3>-->
+        <!--                                    <h3>-->
+        <!--                                        <strong>Email:</strong>-->
+        <!--                                        <span t-field="patient.email"/>-->
+        <!--                                    </h3>-->
+        <!--                                </div>-->
+        <!--                            </div><br/>-->
+        <!--                            <h2 style="color:red;text-align:center">Log History</h2>-->
+        <!--                            <table class="table table-striped table-bordered">-->
+        <!--                                <tr class="table-primary">-->
+        <!--                                    <th>User</th>-->
+        <!--                                    <th>Data</th>-->
+        <!--                                    <th>Info</th>-->
+        <!--                                </tr>-->
+        <!--                                <t t-foreach="patient.log_history_ids" t-as="log">-->
+        <!--                                    <tr class="table-info">-->
+        <!--                                        <td>-->
+        <!--                                            <span t-field="log.create_uid"/>-->
+        <!--                                        </td>-->
+        <!--                                        <td>-->
+        <!--                                            <span t-field="log.create_date"/>-->
+        <!--                                        </td>-->
+        <!--                                        <td>-->
+        <!--                                            <span t-field="log.description"/>-->
+        <!--                                        </td>-->
+        <!--                                    </tr>-->
+        <!--                                </t>-->
+        <!--                            </table>-->
+        <!--                        </div>-->
+        <!--                    </t>-->
+        <!--                </t>-->
+        <!--            </t>-->
+        <!--        </template>-->
+
+        <template id="patient_report_view">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="patient">
+                    <t t-call="web.basic_layout">
+                        <div class="page">
+                            <div class="row">
+                                <div class="col-6">
+                                    <h1 class="text-danger" style="padding-top:50px;">
+                                        <strong>Patient Status Report</strong>
+                                    </h1>
+                                </div>
+                                <div class="col-6" t-if="patient.image">
+                                    <img t-att-src="image_data_uri(patient.image)" class="img-thumbnail" alt="Patient"
+                                         width="200" height="150"/>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6">
+                                    <h3>
+                                        <strong>Name:</strong>
+                                        <t t-esc="patient.first_name"/>
+                                        <t t-esc="patient.last_name"/>
+                                    </h3>
+                                    <h3>
+                                        <strong>Age:</strong>
+                                        <t t-esc="patient.age"/>
+                                    </h3>
+                                    <h3>
+                                        <strong>Department:</strong>
+                                        <t t-esc="patient.department_id.name"/>
+                                    </h3>
+                                    <h3>
+                                        <strong>Doctors:</strong>
+                                        <t t-esc="', '.join(doctor.first_name for doctor in patient.doctors_ids)"/>
+                                    </h3>
+                                </div>
+                                <div class="col-6">
+                                    <h3>
+                                        <strong>Birth date:</strong>
+                                        <t t-esc="patient.birth_date"/>
+                                    </h3>
+                                    <h3>
+                                        <strong>PCR:</strong>
+                                        <t t-esc="patient.pcr"/>
+                                    </h3>
+                                    <h3>
+                                        <strong>Blood Type:</strong>
+                                        <t t-esc="patient.blood_type"/>
+                                    </h3>
+                                    <h3>
+                                        <strong>Email:</strong>
+                                        <t t-esc="patient.email"/>
+                                    </h3>
+                                </div>
+                            </div>
+                            <br/>
+                            <t t-call="hms.patient_log_history_template">
+                                <t t-set="log_history" t-value="patient.log_history_ids"/>
+                            </t>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+
+        <template id="patient_log_history_template">
+
+            <style>
+                .log-history {
+                width: 100%;
+                border-collapse: collapse;
+                font-family: Arial, sans-serif;
+                border: 3px solid #fff;
+                }
+
+                .log-history th,
+                .log-history td {
+                padding: 10px;
+                text-align: left;
+
+                }
+
+                .log-history th {
+                background-color: #0088ff;
+                color: #fff;
+                }
+
+            </style>
+
+            <h2 style="color:red;text-align:center">Log History</h2>
+            <table class="table table-striped table-bordered log-history">
+                <tr>
+                    <th>User</th>
+                    <th>Date</th>
+                    <th>Info</th>
+                </tr>
+                <t t-foreach="log_history" t-as="log">
+                    <tr>
+                        <td>
+                            <t t-esc="log.create_uid.name"/>
+                        </td>
+                        <td>
+                            <t t-esc="log.create_date"/>
+                        </td>
+                        <td>
+                            <t t-esc="log.description"/>
+                        </td>
+                    </tr>
+                </t>
+            </table>
+        </template>
+
+    </data>
+</odoo>
